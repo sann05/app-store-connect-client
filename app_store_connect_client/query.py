@@ -14,7 +14,7 @@ class Query(object):
             "endTime": None,
             "adamId": [app_id],
             "group": None,
-            "frequency": "DAY",
+            "frequency": frequency.days,
             "dimensionFilters": [],
         }
         self.type = None
@@ -50,6 +50,14 @@ class Query(object):
         else:
             raise AppStoreConnectValueError(
                 "The 'measures' param is required in the config")
+        return self
+
+    def set_frequency(self, value=frequency.days):
+        if value in list(frequency):
+            self.config['frequency'] = value
+        else:
+            raise AppStoreConnectValueError(
+                "'frequency' param should be on of the allowed values")
         return self
 
     def sources(self, config=None):

@@ -63,7 +63,7 @@ class QueryType(NamedTuple):
 
 query_type = QueryType(sources="sources", metrics="metrics")
 
-frequency = Frequency(days="days", weekly="weekly", monthly="monthly")
+frequency = Frequency(days="DAY", weekly="WEEK", monthly="MONTH")
 
 measures = Measures(
     installs="installs",
