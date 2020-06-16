@@ -27,7 +27,7 @@ class Query(object):
 
     def _clean_config(self, keys):
         for key in keys:
-            if self.config.get(key):
+            if key in self.config:
                 del self.config[key]
 
     def metrics(self, config):
