@@ -52,6 +52,29 @@ class Query(object):
                 "The 'measures' param is required in the config")
         return self
 
+    def dimension_values(self, config):
+        """
+        Set request configuration to Query for dimension_value request
+        Required param: dimensions
+        optional params:
+         measure
+         dimensionFilters
+        """
+        self.type = "dim_values"
+        self._end_point = "/data/dimension-values"
+        self._clean_config(["limit", "dimension", "group"])
+        if config.get("dimensionFilters"):
+            self.config["dimensionFilters"] = config["dimensionFilters"]
+        if config.get("dimensions"):
+            self.config["dimensions"] = config["dimensions"]
+        else:
+            raise AppStoreConnectValueError(
+                "The 'dimensions' param is required in the config")
+        if config.get("measure"):
+            self.config["measure"] = config["measure"]
+
+        return self
+
     def set_frequency(self, value=frequency.days):
         if value in list(frequency):
             self.config['frequency'] = value
