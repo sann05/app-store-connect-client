@@ -113,4 +113,5 @@ class Client(object):
             logger.error("This is your request body.")
             logger.error(request_body)
             raise Exception("400 Bad Request. Please check your config.")
+        res.raise_for_status()
         return res.json()
