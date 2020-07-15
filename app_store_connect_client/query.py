@@ -52,6 +52,23 @@ class Query(object):
                 "The 'measures' param is required in the config")
         return self
 
+    def app_list(self, config):
+        self.type = "app_list"
+        self._end_point = "/data/app-list"
+        self._clean_config(["adamId", "dimension", "dimensionFilters", "group"])
+        if config.get("measures"):
+            self.config["measures"] = config["measures"]
+        else:
+            raise AppStoreConnectValueError(
+                "The 'measures' param is required in the config")
+
+        if config.get("adamId"):
+            self.config["adamId"] = config["adamId"]
+        else:
+            raise AppStoreConnectValueError(
+                "The 'adamId' param is required in the config")
+        return self
+
     def dimension_values(self, config):
         """
         Set request configuration to Query for dimension_value request
