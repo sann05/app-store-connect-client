@@ -25,6 +25,7 @@ class Client(object):
             "Origin": "https://analytics.itunes.apple.com",
             "X-Requested-By": "analytics.itunes.apple.com",
             "Referer": "https://analytics.itunes.apple.com/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
         }
 
         self._login(username, password)
@@ -38,19 +39,32 @@ class Client(object):
         r = self._session.post(
             self._options["login_url"] + "/signin", json=payload, headers=headers
         )
+        if r.status_code in [200, 412]: # Have no Idea why it returns 200 it should 412
+            self._session.headers.update({
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "scnt": r.headers["scnt"],
+                "X-Apple-ID-Session-Id": r.headers['x-apple-id-session-id'],
+                "X-Apple-Widget-Key": self._options["apple_widget_key"],
+                "X-Requested-With": 'XMLHttpRequest',
+                'X-Apple-Domain-Id': '3',
+            })
 
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "scnt": r.headers["scnt"],
-            "X-Apple-ID-Session-Id": r.headers["x-apple-id-session-id"],
-            "X-Requested-With": "XMLHttpRequest",
-            "X-Apple-Domain-Id": "3",
-            "Sec-Fetch-Site": "same-origin",
-            "Sec-Fetch-Mode": "cors",
-        }
+            r = self._session.post(
+                self._options['login_url'] + "/repair/complete")
 
         if self.is_2fa_auth:
+            headers = {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "scnt": r.headers["scnt"],
+                "X-Apple-ID-Session-Id": r.headers["x-apple-id-session-id"],
+                "X-Requested-With": "XMLHttpRequest",
+                "X-Apple-Domain-Id": "3",
+                "Sec-Fetch-Site": "same-origin",
+                "Sec-Fetch-Mode": "cors",
+            }
+
             print("Enter the 2FA code:")
             two_factor_auth_code = input()
             r = self._session.post(
