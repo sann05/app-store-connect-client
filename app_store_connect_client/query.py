@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 
 from dateutil.relativedelta import relativedelta
 
+from .config import ANALYTICS_API_URL
 from .dataclass import frequency
 from .exceptions import AppStoreConnectValueError
 
@@ -18,7 +19,7 @@ class Query(object):
             "dimensionFilters": [],
         }
         self.type = None
-        self._api_url = "https://analytics.itunes.apple.com/analytics/api/v1"
+        self._api_url = ANALYTICS_API_URL
         self._end_point = None
 
     @property

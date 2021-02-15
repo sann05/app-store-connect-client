@@ -1,8 +1,6 @@
 import requests
-from requests.exceptions import Timeout
-from urllib.parse import urlparse
-import json
-from . import query, exceptions
+
+from . import ANALYTICS_API_URL
 from .log import logger
 
 
@@ -16,7 +14,7 @@ class Client(object):
         self._options = {
             "base_url": "https://appstoreconnect.apple.com/olympus/v1",
             "login_url": "https://idmsa.apple.com/appleauth/auth",
-            "settings_url": "https://analytics.itunes.apple.com/analytics/api/v1",
+            "settings_url": ANALYTICS_API_URL,
             "apple_widget_key": "e0b80c3bf78523bfe80974d320935bfa30add02e1bff88ec2166c6bd5a706c42",
         }
         self._headers = {

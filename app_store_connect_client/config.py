@@ -1,5 +1,8 @@
 from .dataclass import frequency
 
+ANALYTICS_API_URL = "https://appstoreconnect.apple.com/analytics/api/v1"
+
+
 # TODO: use Config class Instead of config dict.
 class Config():
     def __init__(self, app_id):
